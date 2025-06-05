@@ -3,43 +3,96 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Комментарии — Geometry Dash</title>
+  <title>Комментарии</title>
   <style>
     body {
-      font-family: sans-serif;
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
       padding: 20px;
-      background: #f7f7f7;
-      color: #333;
     }
-    h1 {
+    .comments-box {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h2 {
       text-align: center;
     }
-    .giscus {
-      margin-top: 40px;
+    .comment {
+      background: #f9f9f9;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-left: 4px solid #0077ff;
+      border-radius: 4px;
+    }
+    textarea {
+      width: 100%;
+      height: 80px;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      resize: vertical;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background: #0077ff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #005dc1;
     }
   </style>
 </head>
 <body>
-  <h1>💬 Комментарии</h1>
-  <p>Здесь вы можете оставить свой комментарий — он сохранится на GitHub и будет виден всем!</p>
-
-  <!-- Комментарии Giscus -->
-  <div class="giscus">
-    <script src="https://giscus.app/client.js"
-      data-repo="Darumenchik/geometdy"
-      data-repo-id=""
-      data-category="General"
-      data-category-id="CATEGORY_ID"
-      data-mapping="pathname"
-      data-strict="0"
-      data-reactions-enabled="1"
-      data-emit-metadata="0"
-      data-input-position="bottom"
-      data-theme="light"
-      data-lang="ru"
-      crossorigin="anonymous"
-      async>
-    </script>
+  <div class="comments-box">
+    <h2>💬 Комментарии</h2>
+    <div id="comments-list"></div>
+    <textarea id="comment-input" placeholder="Напиши комментарий..."></textarea>
+    <button onclick="addComment()">Оставить комментарий</button>
   </div>
+
+  <script>
+    const commentInput = document.getElementById('comment-input');
+    const commentsList = document.getElementById('comments-list');
+
+    // Загрузить комментарии из localStorage
+    window.onload = function () {
+      const savedComments = JSON.parse(localStorage.getItem('comments') || '[]');
+      savedComments.forEach(c => renderComment(c));
+    };
+
+    function addComment() {
+      const text = commentInput.value.trim();
+      if (!text) return;
+
+      const comment = {
+        text,
+        time: new Date().toLocaleString()
+      };
+
+      // Сохранение в localStorage
+      const comments = JSON.parse(localStorage.getItem('comments') || '[]');
+      comments.push(comment);
+      localStorage.setItem('comments', JSON.stringify(comments));
+
+      renderComment(comment);
+      commentInput.value = '';
+    }
+
+    function renderComment(comment) {
+      const div = document.createElement('div');
+      div.className = 'comment';
+      div.innerHTML = `<strong>${comment.time}</strong><br>${comment.text}`;
+      commentsList.appendChild(div);
+    }
+  </script>
 </body>
 </html>
