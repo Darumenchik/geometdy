@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Geometry Dash — это не просто тапалка! Узнай, почему GD — крутая игра с видео, музыкой, советами и мемами." />
+  <meta name="keywords" content="Geometry Dash, GD, LIMBO, игра, музыка, геймплей, советы" />
+  <title>Geometry Dash — Не просто тапалка!</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <button id="scrollTopBtn" title="Наверх">⬆</button>
+
+  <audio id="bgm" loop>
+    <source src="menuLoop.mp3" type="audio/mpeg" />
+    Ваш браузер не поддерживает HTML5 Audio.
+  </audio>
+
+  <div class="container fade-in">
+
+    <header>
+      <img src="img/logo.jpg" alt="Geometry Dash Логотип" class="logo" />
+      <h1>🎮 Geometry Dash</h1>
+      <p class="tagline">Это не просто "тапалка" — это стиль, челлендж и мощь!</p>
+    </header>
+
+    <div class="music-control">
+      <button id="musicToggle">▶ Включить музыку</button>
+    </div>
+
+
+      </div>
+    </section>
+
+    <section class="why-gd">
+      <h2>🔥 Почему Geometry Dash — это шедевр?</h2>
+      <ul>
+        <li>⚡ Реакция и ритм — основа победы</li>
+        <li>🎵 Музыка в полной синхронизации с движением</li>
+        <li>💥 Уровни от простых до безумных (Demon)</li>
+        <li>🧱 Свой редактор уровней</li>
+        <li>🌍 Тысячи карт от игроков</li>
+      </ul>
+      <p class="quote">«Только сильные проходят LIMBO»</p>
+    </section>
+
+    <section class="video-section">
+      <h2>Видео LIMBO — полное прохождение</h2>
+      <div class="video-wrapper">
+        <iframe
+          width="640"
+          height="360"
+          src="https://www.youtube.com/embed/ryBbuH_SPbs"
+          title="LIMBO - Full Level Showcase"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </section>
+
+    <section class="downloads">
+      <h2>Скачать Geometry Dash</h2>
+      <ul>
+        <li><a href="https://store.steampowered.com/app/322170/Geometry_Dash/?l=russian" target="_blank" rel="noopener">Steam (PC)</a></li>
+        <li><a href="https://play.google.com/store/apps/details?id=com.robtopx.geometryjump" target="_blank" rel="noopener">Google Play (Android)</a></li>
+        <li><a href="https://apps.apple.com/app/geometry-dash/id625910163" target="_blank" rel="noopener">App Store (iOS)</a></li>
+      </ul>
+    </section>
+
+    <section class="tips">
+      <h2>Советы для прохождения сложных уровней</h2>
+      <ul>
+        <li>Тренируй реакцию в редакторе</li>
+        <li>Запоминай ритм музыки</li>
+        <li>Используй тренировочный режим</li>
+        <li>Не сдавайся после неудач — практика ключ к успеху</li>
+      </ul>
+    </section>
+
+    <section class="memes">
+      <h2>Цитаты и мемы из сообщества</h2>
+      <ul>
+        <li>"If you can't beat it, it's a Demon!"</li>
+        <li>"Geometry Dash: где тапать — искусство"</li>
+        <li>"Прыгай, летай, но не падай"</li>
+        <li>"1000 смертей — это только начало"</li>
+      </ul>
+    </section>
+
+    <!-- Новостной раздел -->
+    <section class="news">
+      <h2>🆕 Актуальные новости Geometry Dash</h2>
+      <article>
+        <h3>Версия 2.207 (выпущена 8 ноября 2024 года)</h3>
+        <ul>
+          <li>Событийные уровни и сундуки, связанные с текущими событиями</li>
+          <li>Новые достижения и награды для игроков</li>
+          <li>Новая опция триггера песен для гибкой настройки музыки</li>
+          <li>Исправления ошибок и оптимизация производительности</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Статистика игроков</h3>
+        <ul>
+          <li>В январе 2025 года количество игроков достигло 17,4 миллиона</li>
+          <li>Ежедневно в игру заходят около 1,2 миллиона человек</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Ожидаемые обновления</h3>
+        <ul>
+          <li>Обновление 2.3 — ожидается не ранее 2025 года</li>
+        </ul>
+      </article>
+      <p class="news-source">Источник: официальные страницы и игровые сообщества</p>
+    </section>
+
+<a href="comment.html" class="btn">Перейти к комментариям</a>
+
+
+    <footer>
+      <p>Сайт сделан фанатом ❤️ | @Darumeni</p>
+    </footer>
+
+  </div>
+
+  <script>
+    // Управление музыкой
+    const bgm = document.getElementById('bgm');
+    const musicBtn = document.getElementById('musicToggle');
+    let musicPlaying = false;
+
+    musicBtn.addEventListener('click', () => {
+      if (!musicPlaying) {
+        bgm.play();
+        musicBtn.textContent = '⏸ Отключить музыку';
+      } else {
+        bgm.pause();
+        musicBtn.textContent = '▶ Включить музыку';
+      }
+      musicPlaying = !musicPlaying;
+    });
+
+    // Кнопка Наверх
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+    window.onscroll = function () {
+      if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+        scrollTopBtn.style.display = "block";
+      } else {
+        scrollTopBtn.style.display = "none";
+      }
+    };
+
+    scrollTopBtn.onclick = function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+  </script>
+
+</body>
+</html>
