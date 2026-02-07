@@ -1,0 +1,31 @@
+{
+  "name": "Chiper - Secure Messaging",
+  "short_name": "Chiper",
+  "description": "Secure messaging application",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0F0F0F",
+  "theme_color": "#5DCA95",
+  "icons": [
+    {
+      "src": "https://ui-avatars.com/api/?name=C&background=5DCA95&color=000&size=192",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://ui-avatars.com/api/?name=C&background=5DCA95&color=000&size=512",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "https://ui-avatars.com/api/?name=Chiper&background=5DCA95&color=000&size=540",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ]
+}

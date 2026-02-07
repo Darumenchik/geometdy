@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Add Account - Chiper</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #5DCA95;
+            --primary-hover: #4bb382;
+            --bg-dark: #0F0F0F;
+            --card-bg: #1A1A1A;
+            --input-bg: rgba(255, 255, 255, 0.05);
+            --input-border: #2D2D2D;
+            --text-main: #F0F0F0;
+            --text-muted: #888888;
+            --danger: #FF453A;
+            --success: #5DCA95;
+            --radius-md: 10px;
+            --spacing-md: 12px;
+            --spacing-lg: 16px;
+            --font-sm: 12px;
+            --font-md: 13px;
+            --font-lg: 14px;
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-dark: #FFFFFF;
+                --card-bg: #F8F8F8;
+                --input-bg: rgba(0, 0, 0, 0.03);
+                --text-main: #1A1A1A;
+                --text-muted: #666666;
+                --input-border: #E0E0E0;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 414px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+            margin-right: 16px;
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--input-border);
+            margin-bottom: 16px;
+        }
+
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .form-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--primary-color);
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            font-size: var(--font-sm);
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: var(--radius-md);
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: var(--font-md);
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--primary-color);
+        }
+
+        input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .btn {
+            background: var(--primary-color);
+            color: #000;
+            border: none;
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            font-size: var(--font-md);
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--input-border);
+            color: var(--text-main);
+        }
+
+        .btn-secondary:hover {
+            background: var(--input-bg);
+        }
+
+        .toggle-form {
+            text-align: center;
+            margin-top: 16px;
+            font-size: var(--font-sm);
+        }
+
+        .toggle-form a {
+            color: var(--primary-color);
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .toggle-form a:hover {
+            text-decoration: underline;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--card-bg);
+            color: var(--text-main);
+            padding: 12px 20px;
+            border-radius: 20px;
+            font-size: var(--font-sm);
+            border: 1px solid var(--input-border);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+            max-width: 80%;
+            text-align: center;
+        }
+
+        .toast.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .loading {
+            display: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--text-muted);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loading.visible {
+            display: block;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            gap: 12px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--input-border);
+        }
+
+        .divider-text {
+            font-size: var(--font-sm);
+            color: var(--text-muted);
+        }
+
+        .emoji-input {
+            text-align: center;
+            font-size: 48px;
+        }
+
+        .info-text {
+            font-size: var(--font-sm);
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <button class="back-btn" onclick="goBack()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h1 class="header-title">Add Account</h1>
+        </div>
+
+        <!-- Login Section -->
+        <div class="card">
+            <div class="form-section active" id="login-form">
+                <div class="form-title">Sign In</div>
+                <p class="info-text">Sign in with existing account to add it to your device</p>
+
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" id="login-email" placeholder="your@email.com">
+                </div>
+
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="login-password" placeholder="Your password">
+                </div>
+
+                <button class="btn" onclick="handleLogin()">
+                    <span id="login-text">Sign In</span>
+                    <span class="loading" id="login-loading"></span>
+                </button>
+
+                <div class="toggle-form">
+                    Don't have an account? <a onclick="switchToSignup()">Create one</a>
+                </div>
+            </div>
+
+            <!-- Signup Section -->
+            <div class="form-section" id="signup-form">
+                <div class="form-title">Create Account</div>
+                <p class="info-text">Create a new account to add to your device</p>
+
+                <div class="input-group">
+                    <label>Display Name</label>
+                    <input type="text" id="signup-name" placeholder="Your name">
+                </div>
+
+                <div class="input-group">
+                    <label>Emoji Avatar</label>
+                    <input type="text" id="signup-emoji" class="emoji-input" placeholder="😀" maxlength="2">
+                </div>
+
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" id="signup-email" placeholder="your@email.com">
+                </div>
+
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="signup-password" placeholder="Min 6 characters">
+                </div>
+
+                <button class="btn" onclick="handleSignup()">
+                    <span id="signup-text">Create Account</span>
+                    <span class="loading" id="signup-loading"></span>
+                </button>
+
+                <div class="toggle-form">
+                    Already have an account? <a onclick="switchToLogin()">Sign in</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back to Main Button -->
+        <button class="btn btn-secondary" onclick="goBack()">
+            <i class="fas fa-arrow-left"></i> Back to Chiper
+        </button>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword,
+            sendEmailVerification
+        } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+        import { 
+            getDatabase, 
+            ref, 
+            set 
+        } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBTBGWf5TSNFpxnha10bEu7CD6tr3Lj2PY",
+            authDomain: "chiper-228.firebaseapp.com",
+            databaseURL: "https://chiper-228-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "chiper-228",
+            storageBucket: "chiper-228.firebasestorage.app",
+            messagingSenderId: "334781608494",
+            appId: "1:334781608494:web:a9fc7d93d3e9d65233e5bf",
+            measurementId: "G-8D06Q6GM8G"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        // Utility functions
+        function showToast(msg, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.style.background = type === 'error' ? 'var(--danger)' : 
+                                     type === 'success' ? 'var(--success)' : 'var(--card-bg)';
+            toast.classList.add('visible');
+            setTimeout(() => toast.classList.remove('visible'), 3000);
+        }
+
+        function showLoading(buttonId) {
+            const text = document.querySelector(`#${buttonId}-text`);
+            const loading = document.querySelector(`#${buttonId}-loading`);
+            if (text) text.style.display = 'none';
+            if (loading) loading.classList.add('visible');
+        }
+
+        function hideLoading(buttonId) {
+            const text = document.querySelector(`#${buttonId}-text`);
+            const loading = document.querySelector(`#${buttonId}-loading`);
+            if (text) text.style.display = 'inline';
+            if (loading) loading.classList.remove('visible');
+        }
+
+        function generateSvgUrl(char, color = '#5DCA95') {
+            const emoji = char || "👤";
+            const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="${color}"/><text x="50" y="55" font-family="Inter" font-weight="bold" font-size="50" fill="white" text-anchor="middle" dominant-baseline="middle">${emoji}</text></svg>`;
+            return `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svg)))}`;
+        }
+
+        function generateUniqueId() {
+            const numbers = '0123456789';
+            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            let id = 'chi-';
+            for (let i = 0; i < 4; i++) {
+                id += Math.random() < 0.5 ? 
+                    numbers[Math.floor(Math.random() * numbers.length)] :
+                    letters[Math.floor(Math.random() * letters.length)];
+            }
+            return id;
+        }
+
+        function validateEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        function validatePassword(password) {
+            return password.length >= 6;
+        }
+
+        // Form switching
+        window.switchToSignup = () => {
+            document.getElementById('login-form').classList.remove('active');
+            document.getElementById('signup-form').classList.add('active');
+        };
+
+        window.switchToLogin = () => {
+            document.getElementById('signup-form').classList.remove('active');
+            document.getElementById('login-form').classList.add('active');
+        };
+
+        // Sign Up
+        window.handleSignup = async () => {
+            const email = document.getElementById('signup-email').value.trim();
+            const password = document.getElementById('signup-password').value;
+            const name = document.getElementById('signup-name').value.trim();
+            const emoji = document.getElementById('signup-emoji').value.trim() || "👤";
+
+            if (!validateEmail(email)) {
+                showToast("Invalid email format", "error");
+                return;
+            }
+
+            if (!validatePassword(password)) {
+                showToast("Password must be at least 6 characters", "error");
+                return;
+            }
+
+            if (name.length < 2) {
+                showToast("Name must be at least 2 characters", "error");
+                return;
+            }
+
+            showLoading('signup');
+
+            try {
+                const userCred = await createUserWithEmailAndPassword(auth, email, password);
+                const uid = userCred.user.uid;
+                const userId = generateUniqueId();
+                const dpUrl = generateSvgUrl(emoji);
+
+                await set(ref(db, 'users/' + uid), {
+                    uid: uid,
+                    userId: userId,
+                    email: email,
+                    name: name,
+                    dpUrl: dpUrl,
+                    createdAt: new Date().getTime()
+                });
+
+                // Send email verification
+                await sendEmailVerification(userCred.user);
+
+                // Save account to localStorage
+                const savedAccounts = JSON.parse(localStorage.getItem('chiper_accounts') || '[]');
+                const existingIndex = savedAccounts.findIndex(acc => acc.email === email);
+                if (existingIndex !== -1) {
+                    savedAccounts[existingIndex] = { email, password, name, dpUrl };
+                } else {
+                    savedAccounts.push({ email, password, name, dpUrl });
+                }
+                localStorage.setItem('chiper_accounts', JSON.stringify(savedAccounts));
+
+                showToast("Account created! Check your email to verify.", "success");
+                setTimeout(() => window.location.href = 'main3.html', 1500);
+            } catch (err) {
+                showToast(err.message, "error");
+            } finally {
+                hideLoading('signup');
+            }
+        };
+
+        // Sign In
+        window.handleLogin = async () => {
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+
+            if (!validateEmail(email)) {
+                showToast("Invalid email format", "error");
+                return;
+            }
+
+            if (!password) {
+                showToast("Password is required", "error");
+                return;
+            }
+
+            showLoading('login');
+
+            try {
+                const userCred = await signInWithEmailAndPassword(auth, email, password);
+                const uid = userCred.user.uid;
+
+                // Get user data from database to get display name and avatar
+                const { getDatabase, ref, get } = await import("https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js");
+                const db2 = getDatabase(app);
+                const userSnap = await get(ref(db2, 'users/' + uid));
+                
+                let userData = {};
+                if (userSnap.exists()) {
+                    userData = userSnap.val();
+                }
+
+                // Save account to localStorage
+                const savedAccounts = JSON.parse(localStorage.getItem('chiper_accounts') || '[]');
+                const existingIndex = savedAccounts.findIndex(acc => acc.email === email);
+                if (existingIndex !== -1) {
+                    savedAccounts[existingIndex] = { 
+                        email, 
+                        password, 
+                        name: userData.name || 'User', 
+                        dpUrl: userData.dpUrl || generateSvgUrl('👤') 
+                    };
+                } else {
+                    savedAccounts.push({ 
+                        email, 
+                        password, 
+                        name: userData.name || 'User', 
+                        dpUrl: userData.dpUrl || generateSvgUrl('👤') 
+                    });
+                }
+                localStorage.setItem('chiper_accounts', JSON.stringify(savedAccounts));
+
+                showToast("Account added successfully!", "success");
+                setTimeout(() => window.location.href = 'main3.html', 1500);
+            } catch (err) {
+                showToast(err.message, "error");
+            } finally {
+                hideLoading('login');
+            }
+        };
+
+        // Go back
+        window.goBack = () => {
+            window.location.href = 'main3.html';
+        };
+    </script>
+</body>
+</html>

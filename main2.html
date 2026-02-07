@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Chiper - Login</title>   
+    
+    <!-- PWA Meta Tags -->
+    <meta name="application-name" content="Chiper">
+    <meta name="apple-mobile-web-app-title" content="Chiper">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#5DCA95">
+    <meta name="msapplication-TileColor" content="#5DCA95">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://ui-avatars.com/api/?name=C&background=5DCA95&color=000&size=32">
+    <link rel="shortcut icon" href="https://ui-avatars.com/api/?name=C&background=5DCA95&color=000&size=32">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ---------- ROOT VARIABLES ---------- */
+        :root {
+            --primary-color: #5DCA95;
+            --primary-hover: #4bb382;
+            --bg-dark: #0F0F0F;
+            --card-bg: #1A1A1A;
+            --input-bg: rgba(255, 255, 255, 0.05);
+            --input-border: #2D2D2D;
+            --text-main: #F0F0F0;
+            --text-muted: #888888;
+            --danger: #FF453A;
+            --success: #5DCA95;
+            --warning: #FFD60A;
+            --info: #0A84FF;
+            
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+            --radius-xl: 20px;
+            
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 12px;
+            --spacing-lg: 16px;
+            --spacing-xl: 20px;
+            
+            --font-xs: 11px;
+            --font-sm: 12px;
+            --font-md: 13px;
+            --font-lg: 14px;
+            --font-xl: 15px;
+            --font-2xl: 16px;
+            --font-3xl: 18px;
+        }
+
+        
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-dark: #FFFFFF;
+                --card-bg: #F8F8F8;
+                --input-bg: rgba(0, 0, 0, 0.03);
+                --text-main: #1A1A1A;
+                --text-muted: #666666;
+                --input-border: #E0E0E0;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: var(--spacing-lg);
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 400px;
+            background-color: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .auth-logo-container {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .auth-icon {
+            font-size: 48px;
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .app-name {
+            font-size: var(--font-3xl);
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .app-subtitle {
+            color: var(--text-muted);
+            font-size: var(--font-sm);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-lg);
+        }
+
+        form.hidden {
+            display: none;
+        }
+
+        .input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        input {
+            width: 100%;
+            padding: var(--spacing-md) var(--spacing-lg);
+            background-color: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: var(--radius-md);
+            color: var(--text-main);
+            font-size: var(--font-md);
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background-color: rgba(93, 202, 149, 0.05);
+        }
+
+        input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .input-icon {
+            position: absolute;
+            right: var(--spacing-lg);
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: var(--font-lg);
+            transition: color 0.3s ease;
+        }
+
+        .input-icon:hover {
+            color: var(--text-main);
+        }
+
+        .btn {
+            padding: var(--spacing-md) var(--spacing-lg);
+            background-color: var(--primary-color);
+            color: #000;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: var(--font-lg);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(0, 0, 0, 0.2);
+            border-top: 2px solid #000;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .loading.hidden {
+            display: none;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .switch-auth {
+            text-align: center;
+            font-size: var(--font-sm);
+            color: var(--text-muted);
+        }
+
+        .switch-auth span {
+            color: var(--primary-color);
+            cursor: pointer;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .switch-auth span:hover {
+            color: var(--primary-hover);
+            text-decoration: underline;
+        }
+
+        #toast {
+            position: fixed;
+            bottom: var(--spacing-lg);
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--info);
+            color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--radius-md);
+            font-size: var(--font-sm);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 9999;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        #toast.visible {
+            opacity: 1;
+        }
+
+        /* Privacy Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+
+        .modal.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            max-width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: modalSlideUp 0.3s ease;
+        }
+
+        @keyframes modalSlideUp {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-title {
+            font-size: var(--font-2xl);
+            font-weight: 600;
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .modal-content {
+            font-size: var(--font-md);
+            line-height: 1.6;
+            color: var(--text-main);
+        }
+
+        .modal-content h3 {
+            font-size: var(--font-lg);
+            margin-top: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            color: var(--primary-color);
+        }
+
+        .modal-content p {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: var(--spacing-lg);
+            right: var(--spacing-lg);
+            background: none;
+            border: none;
+            font-size: var(--font-2xl);
+            color: var(--text-main);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .modal-close-btn:hover {
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 320px) {
+            .auth-container {
+                padding: var(--spacing-lg);
+                border-radius: var(--radius-md);
+            }
+
+            .auth-icon {
+                font-size: 36px;
+            }
+
+            .app-name {
+                font-size: var(--font-2xl);
+            }
+        }
+    </style>
+    <script src="translations.js"></script>
+</head>
+<body>
+    <div id="toast">Notification</div>
+
+
+    <div class="auth-container">
+        <div class="auth-logo-container">
+            <i class="fas fa-lock auth-icon"></i>
+            <div class="app-name">Chiper</div>
+                <p class="app-subtitle" id="app-subtitle">Secure Messaging</p>
+        </div>
+        
+        <form id="login-form">
+            <div class="input-group">
+                    <input type="email" id="login-email" placeholder="Email" required data-label="loginEmail">
+            </div>
+            <div class="input-group">
+                    <input type="password" id="login-pass" placeholder="Password" required data-label="loginPassword">
+                <i class="fas fa-eye input-icon" id="toggle-password"></i>
+            </div>
+            <button type="submit" class="btn">
+                <span id="login-text" data-label="loginBtn">Log In</span>
+                <span id="login-loading" class="loading hidden"></span>
+            </button>
+            <div class="switch-auth">
+                <span id="no-account-text" data-label="noAccount">Don't have an account? </span><span id="to-signup" data-label="signup">Sign up</span>
+            </div>
+            <div class="switch-auth" style="margin-top: var(--spacing-sm);">
+                <span id="show-privacy" data-label="showPrivacy">Privacy Policy</span>
+            </div>
+        </form>
+
+        <form id="signup-form" class="hidden">
+            <div class="input-group">
+                <input type="email" id="signup-email" placeholder="Email" required data-label="loginEmail">
+            </div>
+            <div class="input-group">
+                <input type="password" id="signup-pass" placeholder="Password (min 6 chars)" required data-label="signupPassword">
+            </div>
+            <div class="input-group">
+                     <input type="text" id="signup-name" placeholder="Display Name" maxlength="20" required data-label="signupName">
+            </div>
+            <div class="input-group">
+                     <input type="text" id="signup-emoji" placeholder="Emoji Avatar (e.g. 🦊)" maxlength="2" style="text-align:center;" required data-label="signupEmoji">
+            </div>
+            <button type="submit" class="btn">
+                <span id="signup-text">Sign Up</span>
+                <span id="signup-loading" class="loading hidden"></span>
+            </button>
+            <div class="switch-auth">
+                     <span id="have-account-text" data-label="haveAccount">Already have an account? </span><span id="to-login" data-label="login">Log in</span>
+            </div>
+            <div class="switch-auth" style="margin-top: var(--spacing-sm);">
+                     <span id="agree-text">By signing up, you agree to our</span> <span id="show-privacy-signup" data-label="privacyPolicy">Privacy Policy</span>
+            </div>
+        </form>
+    </div>
+
+    <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { 
+        getAuth, 
+        createUserWithEmailAndPassword, 
+        signInWithEmailAndPassword, 
+        onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+    import { 
+        getDatabase, 
+        ref, 
+        set 
+    } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyBTBGWf5TSNFpxnha10bEu7CD6tr3Lj2PY",
+        authDomain: "chiper-228.firebaseapp.com",
+        databaseURL: "https://chiper-228-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "chiper-228",
+        storageBucket: "chiper-228.firebasestorage.app",
+        messagingSenderId: "334781608494",
+        appId: "1:334781608494:web:a9fc7d93d3e9d65233e5bf",
+        measurementId: "G-8D06Q6GM8G"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+
+    // --- UTILITY FUNCTIONS ---
+    const showToast = (msg, type = 'info') => {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        
+        if (type === 'error') {
+            t.style.background = '#FF453A';
+        } else if (type === 'success') {
+            t.style.background = '#5DCA95';
+        } else {
+            t.style.background = '#0A84FF';
+        }
+        
+        t.classList.add('visible');
+        setTimeout(() => t.classList.remove('visible'), 3000);
+    };
+
+    const showLoading = (buttonId) => {
+        const text = document.querySelector(`#${buttonId}-text`);
+        const loading = document.querySelector(`#${buttonId}-loading`);
+        if (text && loading) {
+            text.classList.add('hidden');
+            loading.classList.remove('hidden');
+        }
+    };
+
+    const hideLoading = (buttonId) => {
+        const text = document.querySelector(`#${buttonId}-text`);
+        const loading = document.querySelector(`#${buttonId}-loading`);
+        if (text && loading) {
+            text.classList.remove('hidden');
+            loading.classList.add('hidden');
+        }
+    };
+
+    const validateEmail = (email) => {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    };
+
+    const validatePassword = (password) => {
+        return password.length >= 6;
+    };
+
+    const generateSvgUrl = (char, color = '#5DCA95') => {
+        const emoji = char || "👤";
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="${color}"/><text x="50" y="55" font-family="Inter" font-weight="bold" font-size="50" fill="white" text-anchor="middle" dominant-baseline="middle">${emoji}</text></svg>`;
+        return `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svg)))}`;
+    };
+
+    // --- AUTH FUNCTIONS ---
+    function switchToSignup() {
+        document.getElementById('login-form').classList.add('hidden');
+        document.getElementById('signup-form').classList.remove('hidden');
+    }
+
+    function switchToLogin() {
+        document.getElementById('signup-form').classList.add('hidden');
+        document.getElementById('login-form').classList.remove('hidden');
+    }
+
+    function togglePasswordVisibility(e) {
+        const input = document.getElementById('login-pass');
+        const icon = e.target;
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+
+    async function handleSignup(e) {
+        e.preventDefault();
+        const email = document.getElementById('signup-email').value.trim();
+        const pass = document.getElementById('signup-pass').value;
+        const name = document.getElementById('signup-name').value.trim();
+        const emoji = document.getElementById('signup-emoji').value.trim() || "👤";
+        
+        if (!validateEmail(email)) {
+            showToast("Please enter a valid email", "error");
+            return;
+        }
+        
+        if (!validatePassword(pass)) {
+            showToast("Password must be at least 6 characters", "error");
+            return;
+        }
+        
+        if (name.length < 2) {
+            showToast("Name must be at least 2 characters", "error");
+            return;
+        }
+        
+        showLoading('signup');
+        
+        try {
+            const userCred = await createUserWithEmailAndPassword(auth, email, pass);
+            const uid = userCred.user.uid;
+            
+            const dpUrl = generateSvgUrl(emoji);
+            
+            await set(ref(db, `users/${uid}`), {
+                email: email,
+                name: name,
+                emoji: emoji,
+                dpUrl: dpUrl,
+                userId: `chi-${Math.random().toString(36).substr(2, 4).toUpperCase()}`,
+                bio: '',
+                createdAt: Date.now(),
+                chiperBalance: 0,
+                hasPremium: false,
+                premiumColor: null,
+                status: 'online',
+                lastSeen: Date.now(),
+                settings: {
+                    notifications: true,
+                    sounds: true,
+                    location: true,
+                    animations: true,
+                    hideOnlineStatus: false
+                },
+                privacy: {
+                    canAddMe: 'everyone',
+                    lastSeenVisibility: 'everyone'
+                }
+            });
+            
+            showToast("Welcome to Chiper!", "success");
+            setTimeout(() => {
+                window.location.href = 'main3.html';
+            }, 1000);
+        } catch (err) { 
+            showToast(err.message, "error"); 
+        } finally {
+            hideLoading('signup');
+        }
+    }
+
+    async function handleLogin(e) {
+        e.preventDefault();
+        const email = document.getElementById('login-email').value.trim();
+        const password = document.getElementById('login-pass').value;
+        
+        if (!validateEmail(email)) {
+            showToast("Please enter a valid email", "error");
+            return;
+        }
+        
+        if (!password) {
+            showToast("Please enter your password", "error");
+            return;
+        }
+        
+        showLoading('login');
+        
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            showToast("Login successful!", "success");
+            setTimeout(() => {
+                window.location.href = 'main3.html';
+            }, 1000);
+        } catch (err) { 
+            const errorMsg = err.code === 'auth/user-not-found' ? 'User not found' : 
+                           err.code === 'auth/wrong-password' ? 'Wrong password' : 
+                           err.message;
+            showToast(errorMsg || "Login failed", "error"); 
+        } finally {
+            hideLoading('login');
+        }
+    }
+
+    function checkAuthState() {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                window.location.href = 'main3.html';
+            }
+        });
+    }
+
+    // --- EVENT LISTENERS ---
+    document.getElementById('to-signup').onclick = switchToSignup;
+    document.getElementById('to-login').onclick = switchToLogin;
+    document.getElementById('toggle-password').onclick = togglePasswordVisibility;
+    document.getElementById('signup-form').onsubmit = handleSignup;
+    document.getElementById('login-form').onsubmit = handleLogin;
+    
+    // Open privacy/terms as separate pages (modal removed)
+    document.getElementById('show-privacy').onclick = () => {
+        window.open('privacy.html', '_blank');
+    };
+    document.getElementById('show-privacy-signup').onclick = () => {
+        window.open('privacy.html', '_blank');
+    };
+
+    // Check if user is already logged in
+    checkAuthState();
+
+    // --- LOCALIZATION FUNCTIONS ---
+    function updateLanguageUI() {
+        const translations = getLanguageTranslations();
+        
+        // Update HTML elements with data-label attribute
+        document.querySelectorAll('[data-label]').forEach(el => {
+            const labelKey = el.getAttribute('data-label');
+            if (translations[labelKey]) {
+                if (el.tagName === 'INPUT') {
+                    el.placeholder = translations[labelKey];
+                } else {
+                    el.textContent = translations[labelKey];
+                }
+            }
+        });
+        
+        // Update specific elements
+        const appSubtitle = document.getElementById('app-subtitle');
+        if (appSubtitle) appSubtitle.textContent = translations.appSubtitle || 'Secure Messaging';
+        
+        const agreeText = document.getElementById('agree-text');
+        if (agreeText) agreeText.innerHTML = 'By signing up, you agree to our <a href="privacy.html" target="_blank">Privacy Policy</a> and <a href="terms.html" target="_blank">Terms</a>';
+        
+        const noAccountText = document.getElementById('no-account-text');
+        if (noAccountText) noAccountText.textContent = translations.noAccount || "Don't have an account? ";
+        
+        const haveAccountText = document.getElementById('have-account-text');
+        if (haveAccountText) haveAccountText.textContent = translations.haveAccount || "Already have an account? ";
+    }
+    
+    // Listen for language changes
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'app_language') {
+            updateLanguageUI();
+        }
+    });
+
+    // Initialize localization on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        updateLanguageUI();
+    });
+    
+    // If page is already loaded
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        updateLanguageUI();
+    }
+    </script>
+</body>
+</html>
